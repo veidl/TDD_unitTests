@@ -8,6 +8,8 @@ import java.util.stream.IntStream;
  */
 public class Calculator {
 
+    public static final String RESULT_EXCEEDS_INT_VALUE = "Result too big for int";
+
     /**
      * Sums one operand to the other, returning the result.
      *
@@ -20,7 +22,12 @@ public class Calculator {
     }
 
     public int subtract(int firstOperand, int secondOperand) {
-        throw new UnsupportedOperationException();
+        try {
+            return Math.subtractExact(firstOperand, secondOperand);
+        } catch (ArithmeticException e) {
+            throw new UnsupportedOperationException(RESULT_EXCEEDS_INT_VALUE);
+        }
+
     }
 
     public int divide(int dividend, int divisor) {
@@ -35,7 +42,7 @@ public class Calculator {
         try {
             return Math.multiplyExact(firstOperand, secondOperand);
         } catch (ArithmeticException e) {
-            throw new UnsupportedOperationException("Result too big for int");
+            throw new UnsupportedOperationException(RESULT_EXCEEDS_INT_VALUE);
         }
     }
 

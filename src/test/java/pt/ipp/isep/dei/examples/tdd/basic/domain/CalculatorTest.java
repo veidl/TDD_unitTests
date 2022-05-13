@@ -108,6 +108,20 @@ public class CalculatorTest {
     }
 
     @ParameterizedTest
+    @CsvSource({"2,2,0", "6,3,3", "0,2,-2", "0,0,0", "4,24,-20", "0,1,-1", "-1,-1,0", "-1,1,-2"})
+    public void ensureSubtractionIsCalculatedCorrectly(int a, int b, int expectedResult) {
+        int actualResult = calculator.subtract(a, b);
+        Assertions.assertEquals(expectedResult, actualResult);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"-2000000000,200000000", "-1000000000,2000000000", "1000000000,-2000000000"})
+    public void ensureSubtractionOfTwoBigNumbersCauseUnsupportedException(int a, int b) {
+        UnsupportedOperationException unsupportedOperationException = Assertions.assertThrows(UnsupportedOperationException.class, () -> calculator.subtract(a, b));
+        Assertions.assertEquals("Result too big for int", unsupportedOperationException.getMessage());
+    }
+
+    @ParameterizedTest
     @CsvSource({"2,2,1", "6,3,2", "17039,88,193", "0,1,0", "4,24,0", "0,1,0", "-10,5,-2", "-1347544,42,-32085"})
     public void ensureDivisionIsCalculatedCorrectly(int a, int b, int expectedResult) {
         int actualResult = calculator.divide(a, b);
