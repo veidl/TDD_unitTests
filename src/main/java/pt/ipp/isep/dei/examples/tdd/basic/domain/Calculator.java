@@ -18,7 +18,11 @@ public class Calculator {
      * @return The sum of firstOperand with secondOperand.
      */
     public int sum(int firstOperand, int secondOperand) {
-        return firstOperand + secondOperand;
+        try {
+            return Math.addExact(firstOperand, secondOperand);
+        } catch (ArithmeticException e) {
+            throw new UnsupportedOperationException(RESULT_EXCEEDS_INT_VALUE);
+        }
     }
 
     public int subtract(int firstOperand, int secondOperand) {
@@ -33,7 +37,7 @@ public class Calculator {
     public int divide(int dividend, int divisor) {
         try {
             return Math.floorDiv(dividend, divisor);
-        }catch (ArithmeticException e) {
+        } catch (ArithmeticException e) {
             throw new UnsupportedOperationException("Divisor is zero");
         }
     }

@@ -108,6 +108,20 @@ public class CalculatorTest {
     }
 
     @ParameterizedTest
+    @CsvSource({"2,2,4", "6,3,9", "-2,2,0", "0,0,0", "20,-400,-380", "0,1,1", "-1,-1,-2", "-1,1,0"})
+    public void ensureAdditionIsCalculatedCorrectly(int a, int b, int expectedResult) {
+        int actualResult = calculator.sum(a, b);
+        Assertions.assertEquals(expectedResult, actualResult);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"2000000000,200000000", "1000000000,2000000000", "-1000000000,-2000000000"})
+    public void ensureAdditionOfTwoBigNumbersCauseUnsupportedException(int a, int b) {
+        UnsupportedOperationException unsupportedOperationException = Assertions.assertThrows(UnsupportedOperationException.class, () -> calculator.sum(a, b));
+        Assertions.assertEquals("Result too big for int", unsupportedOperationException.getMessage());
+    }
+
+    @ParameterizedTest
     @CsvSource({"2,2,0", "6,3,3", "0,2,-2", "0,0,0", "4,24,-20", "0,1,-1", "-1,-1,0", "-1,1,-2"})
     public void ensureSubtractionIsCalculatedCorrectly(int a, int b, int expectedResult) {
         int actualResult = calculator.subtract(a, b);
@@ -126,6 +140,13 @@ public class CalculatorTest {
     public void ensureDivisionIsCalculatedCorrectly(int a, int b, int expectedResult) {
         int actualResult = calculator.divide(a, b);
         Assertions.assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    public void ensureDivisionThrowsUnsupportedExceptionDivisorIsZero() {
+        UnsupportedOperationException unsupportedOperationException = Assertions.assertThrows(UnsupportedOperationException.class, () -> calculator.divide(11, 0));
+        Assertions.assertEquals("Divisor is zero", unsupportedOperationException.getMessage());
+
     }
 
     @ParameterizedTest
