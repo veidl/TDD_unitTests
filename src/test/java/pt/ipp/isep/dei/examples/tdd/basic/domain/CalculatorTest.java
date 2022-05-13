@@ -108,6 +108,13 @@ public class CalculatorTest {
     }
 
     @ParameterizedTest
+    @CsvSource({"2,2,1", "6,3,2", "17039,88,193", "0,1,0", "4,24,0", "0,1,0", "-10,5,-2", "-1347544,42,-32085"})
+    public void ensureDivisionIsCalculatedCorrectly(int a, int b, int expectedResult) {
+        int actualResult = calculator.divide(a, b);
+        Assertions.assertEquals(expectedResult, actualResult);
+    }
+
+    @ParameterizedTest
     @CsvSource({"2,2,4", "3,6,18", "10,10,100", "0,1,0", "4,24,96", "7,5040,35280", "2,-2,-4", "-100,50,-5000", "0,0,0"})
     public void ensureMultiplicationIsCalculatedCorrectly(int a, int b, int expectedResult) {
         int actualResult = calculator.multiply(a, b);

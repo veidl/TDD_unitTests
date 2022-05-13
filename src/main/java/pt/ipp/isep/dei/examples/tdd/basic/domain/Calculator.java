@@ -24,7 +24,11 @@ public class Calculator {
     }
 
     public int divide(int dividend, int divisor) {
-        throw new UnsupportedOperationException();
+        try {
+            return Math.floorDiv(dividend, divisor);
+        }catch (ArithmeticException e) {
+            throw new UnsupportedOperationException("Divisor is zero");
+        }
     }
 
     public int multiply(int firstOperand, int secondOperand) {
