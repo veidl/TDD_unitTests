@@ -1,5 +1,7 @@
 package pt.ipp.isep.dei.examples.tdd.basic.domain;
 
+import java.util.stream.IntStream;
+
 /**
  * Calculator class.
  * This class is very simple in order to demonstrate how to build test cases for Unit Testing.
@@ -30,6 +32,11 @@ public class Calculator {
     }
 
     public int factorial(int firstOperand) {
-        throw new UnsupportedOperationException();
+        if (firstOperand < 0) throw new UnsupportedOperationException("Operand cannot be lt zero");
+        int factorial = IntStream.rangeClosed(1, firstOperand)
+                .reduce(1, (int x, int y) -> x * y);
+
+        if (factorial <= 0) throw new UnsupportedOperationException("Operand too big for int");
+        return factorial;
     }
 }

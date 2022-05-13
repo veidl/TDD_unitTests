@@ -2,8 +2,6 @@
 
 ## generally
 
-* null input
-* !int input
 * negative input
 * overflow / underflow
 * negative output
@@ -28,4 +26,3 @@
 ### factorial
 
 * factorial function
-* infinite loop

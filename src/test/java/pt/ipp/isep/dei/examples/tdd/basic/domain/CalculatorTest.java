@@ -1,13 +1,19 @@
 package pt.ipp.isep.dei.examples.tdd.basic.domain;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class CalculatorTest {
 
+    Calculator calculator = new Calculator();
+
     @BeforeAll
+    @Disabled
     public static void classSetUp() {
         //HACK: for demonstration purposes only
         System.out.println(
@@ -15,6 +21,7 @@ public class CalculatorTest {
     }
 
     @AfterAll
+    @Disabled
     public static void classTearDown() {
         //HACK: for demonstration purposes only
         System.out.println(
@@ -22,6 +29,7 @@ public class CalculatorTest {
     }
 
     @BeforeEach
+    @Disabled
     public void setUp() {
         //HACK: for demonstration purposes only
         System.out.println(
@@ -29,6 +37,7 @@ public class CalculatorTest {
     }
 
     @AfterEach
+    @Disabled
     public void tearDown() {
         //HACK: for demonstration purposes only
         System.out.println(
@@ -50,6 +59,7 @@ public class CalculatorTest {
      * Assert: the result is five.
      */
     @Test
+    @Disabled
     public void ensureThreePlusTwoEqualsFive() {
 
         //HACK: for demonstration purposes only
@@ -78,6 +88,7 @@ public class CalculatorTest {
      * Assert the sum result should be one.
      */
     @Test
+    @Disabled
     public void ensureThreePlusMinusTwoEqualsOne() {
         //HACK: for demonstration purposes only
         System.out.println("\t\tExecuting " + new Object() {
@@ -95,6 +106,27 @@ public class CalculatorTest {
         // Assert
         assertEquals(expectedResult, result);
     }
+
+    @Test
+    public void ensureFactorialOfNegativeNumberThrowsUnsupportedOperationException() {
+        UnsupportedOperationException unsupportedOperationException = Assertions.assertThrows(UnsupportedOperationException.class, () -> calculator.factorial(-1));
+        Assertions.assertEquals("Operand cannot be lt zero", unsupportedOperationException.getMessage());
+    }
+
+    @ParameterizedTest
+    @CsvSource({"2,2", "3,6", "10,3628800", "0,1", "4,24", "7,5040"})
+    public void ensureFactorialIsCalculatedCorrectly(int input, int expectedResult) {
+        int actualResult = calculator.factorial(input);
+        Assertions.assertEquals(expectedResult, actualResult);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {100, 1000, 66, 33, 21345678})
+    public void ensureFactorialThrowsErrorForBiggerNumbers(int input) {
+        UnsupportedOperationException unsupportedOperationException = Assertions.assertThrows(UnsupportedOperationException.class, () -> calculator.factorial(input));
+        Assertions.assertEquals("Operand too big for int", unsupportedOperationException.getMessage());
+    }
+
 }
 
 
