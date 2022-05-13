@@ -28,7 +28,11 @@ public class Calculator {
     }
 
     public int multiply(int firstOperand, int secondOperand) {
-        throw new UnsupportedOperationException();
+        try {
+            return Math.multiplyExact(firstOperand, secondOperand);
+        } catch (ArithmeticException e) {
+            throw new UnsupportedOperationException("Result too big for int");
+        }
     }
 
     public int factorial(int firstOperand) {

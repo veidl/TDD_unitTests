@@ -107,6 +107,20 @@ public class CalculatorTest {
         assertEquals(expectedResult, result);
     }
 
+    @ParameterizedTest
+    @CsvSource({"2,2,4", "3,6,18", "10,10,100", "0,1,0", "4,24,96", "7,5040,35280", "2,-2,-4", "-100,50,-5000", "0,0,0"})
+    public void ensureMultiplicationIsCalculatedCorrectly(int a, int b, int expectedResult) {
+        int actualResult = calculator.multiply(a, b);
+        Assertions.assertEquals(expectedResult, actualResult);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"2000000000,200000000", "-300000000,6000000", "-1000000000,-200000000"})
+    public void ensureMultiplicationOfTwoBigNumbersCauseUnsupportedException(int a, int b) {
+        UnsupportedOperationException unsupportedOperationException = Assertions.assertThrows(UnsupportedOperationException.class, () -> calculator.multiply(a, b));
+        Assertions.assertEquals("Result too big for int", unsupportedOperationException.getMessage());
+    }
+
     @Test
     public void ensureFactorialOfNegativeNumberThrowsUnsupportedOperationException() {
         UnsupportedOperationException unsupportedOperationException = Assertions.assertThrows(UnsupportedOperationException.class, () -> calculator.factorial(-1));
